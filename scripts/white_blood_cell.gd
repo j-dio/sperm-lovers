@@ -5,17 +5,27 @@ extends CharacterBody3D
 @export var health: int = 5
 @export var detection_range: float = 8.0
 @export var chase_speed: float = 4.0
+@export var attack_damage: int = 2
+@export var knockback_force: float = 12.0
+@export var attack_cooldown: float = 1.0
 
 var wander_target: Vector3
 var home_position: Vector3
 var current_target: Node3D = null
 var is_chasing: bool = false
+var can_attack: bool = true
+
+@onready var attack_hitbox: Area3D = $AttackHitbox
 
 
 func _ready() -> void:
 	home_position = global_position
 	add_to_group("enemies")
 	pick_new_wander_target()
+
+	# Connect attack hitbox signal
+	if attack_hitbox:
+		attack_hitbox.body_entered.connect(_on_attack_hitbox_body_entered)
 
 
 func _physics_process(_delta: float) -> void:
@@ -92,3 +102,26 @@ func take_damage(amount: int) -> void:
 	if health <= 0:
 		print("White blood cell died!")
 		queue_free()
+
+
+func _on_attack_hitbox_body_entered(body: Node3D) -> void:
+	if not can_attack:
+		return
+
+	# Attack player
+	if body.is_in_group("player") and body.has_method("take_damage"):
+		body.take_damage(attack_damage, global_position)
+		can_attack = false
+		get_tree().create_timer(attack_cooldown).timeout.connect(_reset_attack)
+		return
+
+	# Attack sibling sperm (enemies with become_aggro method)
+	if body.is_in_group("enemies") and body.has_method("become_aggro") and body.has_method("take_damage"):
+		# WBC deals damage with knockback to siblings too
+		body.take_damage(attack_damage)
+		can_attack = false
+		get_tree().create_timer(attack_cooldown).timeout.connect(_reset_attack)
+
+
+func _reset_attack() -> void:
+	can_attack = true
