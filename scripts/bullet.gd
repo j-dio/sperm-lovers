@@ -2,6 +2,7 @@ extends Area3D
 
 @export var speed: float = 50.0
 @export var lifetime: float = 0.1
+@export var damage: int = 2
 
 var direction := Vector3.FORWARD
 
@@ -17,7 +18,7 @@ func _on_body_entered(body: Node3D) -> void:
 	print("Bullet hit: ", body.name, " Groups: ", body.get_groups())
 	
 	if body.is_in_group("enemies"):
-		body.take_damage()
+		body.take_damage(damage)
 	
 	if body.is_in_group("enemies") or body.is_in_group("walls"):
 		queue_free()
