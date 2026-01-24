@@ -19,6 +19,8 @@ var current_target: Node3D = null
 var is_chasing: bool = false
 var is_aggro: bool = false
 var can_attack: bool = true
+var wander_stuck_timer: float = 0.0
+var last_position: Vector3
 
 @onready var attack_hitbox: Area3D = $AttackHitbox
 @onready var hp_bar: Node3D = $HPBar
@@ -27,6 +29,7 @@ var can_attack: bool = true
 
 func _ready() -> void:
 	home_position = global_position
+	last_position = global_position
 	health = max_health
 	add_to_group("enemies")
 	pick_new_wander_target()
@@ -36,36 +39,73 @@ func _ready() -> void:
 	if attack_hitbox:
 		attack_hitbox.body_entered.connect(_on_attack_hitbox_body_entered)
 
+	# Wait for navigation to be ready
+	await get_tree().physics_frame
+	await get_tree().physics_frame
 
-func _physics_process(_delta: float) -> void:
+
+func _physics_process(delta: float) -> void:
 	# Only chase if aggro (has been shot)
 	if is_aggro:
 		detect_targets()
 
+	# Stuck detection for wandering
+	if not is_aggro:
+		var moved_dist = (global_position - last_position).length()
+		if moved_dist < 0.05:
+			wander_stuck_timer += delta
+			if wander_stuck_timer > 2.0:
+				pick_new_wander_target()
+				wander_stuck_timer = 0.0
+		else:
+			wander_stuck_timer = 0.0
+		last_position = global_position
+
 	var base_velocity := Vector3.ZERO
 
 	if is_aggro and is_chasing and is_instance_valid(current_target):
-		# Use horizontal distance only (ignore Y height difference)
-		var horizontal_diff = current_target.global_position - global_position
-		horizontal_diff.y = 0
-		var dist_to_target = horizontal_diff.length()
+		# Set navigation target
+		nav_agent.target_position = current_target.global_position
+
+		var dist_to_target = (current_target.global_position - global_position).length()
 
 		# Only move if not within stop distance
 		if dist_to_target > stop_distance:
-			var direction = horizontal_diff.normalized()
+			var direction: Vector3
+
+			# Use navigation if path is available
+			if not nav_agent.is_navigation_finished():
+				var next_pos = nav_agent.get_next_path_position()
+				var horizontal_diff = next_pos - global_position
+				horizontal_diff.y = 0
+				if horizontal_diff.length() > 0.1:
+					direction = horizontal_diff.normalized()
+				else:
+					# Fallback to direct path if nav returns current position
+					var direct_diff = current_target.global_position - global_position
+					direct_diff.y = 0
+					direction = direct_diff.normalized()
+			else:
+				# Fallback to direct path
+				var direct_diff = current_target.global_position - global_position
+				direct_diff.y = 0
+				direction = direct_diff.normalized()
+
 			base_velocity = direction * chase_speed
 	else:
 		# WANDER state: wander around
 		is_chasing = false
 		current_target = null
 
-		var direction = (wander_target - global_position).normalized()
-		direction.y = 0
-		base_velocity = direction * move_speed
+		var to_target = wander_target - global_position
+		to_target.y = 0
 
-		# Pick new target when close
-		if global_position.distance_to(wander_target) < 0.5:
+		# Pick new target when close or stuck (too far and not moving)
+		if to_target.length() < 0.5:
 			pick_new_wander_target()
+		elif to_target.length() > 0.1:
+			var direction = to_target.normalized()
+			base_velocity = direction * move_speed
 
 	# Add separation from other enemies
 	var separation = get_separation_from_enemies()
