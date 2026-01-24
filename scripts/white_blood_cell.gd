@@ -63,8 +63,8 @@ func _physics_process(_delta: float) -> void:
 		if global_position.distance_to(wander_target) < 0.5:
 			pick_new_wander_target()
 
-	# Add separation from other white blood cells
-	var separation = get_separation_from_other_wbcs()
+	# Add separation from other enemies
+	var separation = get_separation_from_enemies()
 	velocity = base_velocity + separation
 
 	move_and_slide()
@@ -72,6 +72,9 @@ func _physics_process(_delta: float) -> void:
 	# Face movement direction
 	if velocity.length() > 0.1:
 		rotation.y = atan2(velocity.x, velocity.z) + model_rotation_offset
+
+	# Check for continuous attack while overlapping
+	check_continuous_attack()
 
 
 func pick_new_wander_target() -> void:
@@ -82,14 +85,11 @@ func pick_new_wander_target() -> void:
 	)
 
 
-func get_separation_from_other_wbcs() -> Vector3:
+func get_separation_from_enemies() -> Vector3:
 	var separation := Vector3.ZERO
 
 	for entity in get_tree().get_nodes_in_group("enemies"):
 		if entity == self:
-			continue
-		# Only separate from other white blood cells (entities without become_aggro)
-		if entity.has_method("become_aggro"):
 			continue
 
 		# Use horizontal distance only
@@ -159,3 +159,14 @@ func _on_attack_hitbox_body_entered(body: Node3D) -> void:
 
 func _reset_attack() -> void:
 	can_attack = true
+
+
+func check_continuous_attack() -> void:
+	if not is_aggro or not can_attack or not attack_hitbox:
+		return
+	for body in attack_hitbox.get_overlapping_bodies():
+		if body.is_in_group("player") and body.has_method("take_damage"):
+			body.take_damage(attack_damage, global_position)
+			can_attack = false
+			get_tree().create_timer(attack_cooldown).timeout.connect(_reset_attack)
+			break
