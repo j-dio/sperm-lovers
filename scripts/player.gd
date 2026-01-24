@@ -8,7 +8,7 @@ extends CharacterBody3D
 @export var bullet_scene: PackedScene
 @export var pellet_count: int = 3
 @export var spread_angle: float = 30.0  # degrees
-@export var shot_cooldown: float = 2.0
+@export var shot_cooldown: float = 1.5
 
 # Health
 @export var max_health: int = 10
