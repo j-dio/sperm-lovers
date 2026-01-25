@@ -19,7 +19,7 @@ var home_position: Vector3
 var current_target: Node3D = null
 var is_chasing: bool = false
 var is_aggro: bool = false
-var is_active: bool = false
+var is_active: bool = true
 var can_attack: bool = true
 var wander_stuck_timer: float = 0.0
 var last_position: Vector3
@@ -43,9 +43,6 @@ func _ready() -> void:
 	# Wait for navigation to be ready
 	await get_tree().physics_frame
 	await get_tree().physics_frame
-
-	# Start dormant until player is in range
-	deactivate()
 
 
 func _physics_process(delta: float) -> void:
