@@ -6,119 +6,144 @@ extends Control
 @onready var name_label: RichTextLabel = $DialogBox/NameLabel
 @onready var text_label: RichTextLabel = $DialogBox/TextLabel
 
-signal dialogue_finished
 signal dialogue_started
+signal dialogue_finished
 
 var scene_script: Dictionary = {}
-var current_block: Dictionary = {}
-var current_block_id: String = ""
-var char_timer: float = 0.0
-var auto_advance: bool = false
-var is_typing: bool = false
+var current_entry: Dictionary = {}     # The actual {name, text, next?} we're showing
+var current_key: String = ""           # last used key (for debugging mostly)
 
 func _ready() -> void:
 	hide()
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	set_process(false)
-	
-	if jsonsrc:
-		load_json(jsonsrc)
+	if jsonsrc: load_json(jsonsrc)
 
 func load_json(path: String) -> void:
-	var file := FileAccess.open(path, FileAccess.READ)
+	var file = FileAccess.open(path, FileAccess.READ)
 	if not file:
-		push_error("Failed to open dialogue file: " + path)
+		push_error("Cannot open " + path)
 		return
-	
-	var json_text := file.get_as_text()
+	var text = file.get_as_text()
 	file.close()
 	
-	var parsed = JSON.parse_string(json_text)
-	if parsed == null:
-		push_error("Failed to parse JSON: " + path)
+	var json = JSON.new()
+	var err = json.parse(text)
+	if err != OK:
+		push_error("JSON error: " + json.get_error_message())
 		return
 	
-	scene_script = parsed
+	var data = json.data
+	if not data is Dictionary:
+		push_error("Root must be Dictionary")
+		return
+	scene_script = data
 
-func start_dialogue(block_id: String = "start", auto_chain: bool = false) -> void:
-	if not scene_script.has(block_id):
-		push_warning("Dialogue block not found: " + block_id)
+func start_dialogue(entry_point: String = "start", _auto_advance: bool = false) -> void:
+	if not scene_script.has(entry_point):
+		push_warning("No such block: " + entry_point)
 		return
 	
-	auto_advance = auto_chain
-	current_block_id = block_id
-	current_block = scene_script[block_id]
+	var entry = scene_script[entry_point]
+	var selected = _pick_random_line(entry)
+	if selected == null:
+		push_warning("No valid line found in " + entry_point)
+		return
 	
-	load_block(current_block)
+	_show_line(selected, entry_point)
 	show()
 	set_process(true)
 	get_tree().paused = true
 	dialogue_started.emit()
 
-func load_block(block: Dictionary) -> void:
-	name_label.text = block.get("name", "")
-	text_label.text = block.get("text", "")
+# Core: pick one concrete line (supports groups)
+func _pick_random_line(value) -> Dictionary:
+	if value is Dictionary:
+		# Group -> pick random child and recurse
+		if value.has("text"): return value
+		var keys = value.keys()
+		if keys.is_empty(): return {}
+		var k = keys[randi() % keys.size()]
+		return _pick_random_line(value[k])
+	
+	if value is Array:
+		if value.is_empty(): return {}
+		var idx = randi() % value.size()
+		return _pick_random_line(value[idx])
+	
+	push_warning("Bad dialogue node type")
+	return {}
+
+func _show_line(line: Dictionary, from_key: String = "") -> void:
+	current_entry = line.duplicate()
+	current_key = from_key
+	
+	name_label.text = line.get("name", "")
+	text_label.text = line.get("text", "")
 	text_label.visible_characters = 0
 	
-	is_typing = true
-	char_timer = 0.0
+	set_process(true)
 
 func _process(delta: float) -> void:
-	if not is_typing:
+	if text_label.visible_characters >= text_label.get_total_character_count():
+		set_process(false)
 		return
 	
-	var total_chars := text_label.get_total_character_count()
+	var total = text_label.get_total_character_count()
+	var chars_per_sec = text_speed
 	
-	if text_label.visible_characters < total_chars:
-		char_timer += delta * text_speed
-		
-		var chars_to_add := int(char_timer)
-		if chars_to_add > 0:
-			text_label.visible_characters = mini(
-				text_label.visible_characters + chars_to_add,
-				total_chars
-			)
-			char_timer -= chars_to_add
-	else:
-		is_typing = false
-		set_process(false)
+	text_label.visible_characters += int(delta * chars_per_sec) + 1
+	text_label.visible_characters = mini(text_label.visible_characters, total)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not visible:
-		return
-	if event.is_action_pressed("shoot"):
-		get_viewport().set_input_as_handled()
-		if is_typing:
-			complete_text()
-		else:
-			advance()
+	if not visible: return
+	if not event.is_action_pressed("shoot"): return
+	
+	get_viewport().set_input_as_handled()
+	
+	# Skip typing
+	if text_label.visible_characters < text_label.get_total_character_count():
+		text_label.visible_characters = text_label.get_total_character_count()
+	else:
+		# advance
+		var next_id = current_entry.get("next", "")
+		if next_id.is_empty():
+			_end()
+			return
+		
+		var next_line = _resolve_next_line(next_id)
+		if next_line.is_empty():
+			push_warning("Cannot resolve next: " + next_id)
+			_end()
+			return
+		
+		_show_line(next_line, next_id)
+
+func _resolve_next_line(path: String) -> Dictionary:
+	var parts = path.split(".", false, 1)
+	if parts.size() == 1:
+		if scene_script.has(path) and scene_script[path] is Dictionary:
+			if scene_script[path].has("text"): return scene_script[path]
+			else: return _pick_random_line(scene_script[path])
+		return {}
+	
+	var group = parts[0]
+	var key   = parts[1]
+	
+	if not scene_script.has(group): return {}
+	var g = scene_script[group]
+	if not g is Dictionary or not g.has(key): return {}
+	var line = g[key]
+	if line is Dictionary and line.has("text"): return line
+	return {}
+
+func _end() -> void:
+	hide()
+	set_process(false)
+	current_entry.clear()
+	current_key = ""
+	get_tree().paused = false
+	dialogue_finished.emit()
 
 func complete_text() -> void:
 	text_label.visible_characters = text_label.get_total_character_count()
-	is_typing = false
-	set_process(false)
-
-func advance() -> void:
-	var next_id = current_block.get("next", "")
-	
-	if next_id and auto_advance:
-		if not scene_script.has(next_id):
-			push_warning("Next block not found: " + next_id)
-			end_dialogue()
-			return
-		current_block_id = next_id
-		current_block = scene_script[next_id]
-		load_block(current_block)
-		set_process(true)
-	else:
-		end_dialogue()
-
-func end_dialogue() -> void:
-	hide()
-	set_process(false)
-	current_block.clear()
-	current_block_id = ""
-	auto_advance = false
-	
-	get_tree().paused = false
-	dialogue_finished.emit()
