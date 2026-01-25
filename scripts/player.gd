@@ -130,8 +130,6 @@ func shoot() -> void:
 	if gun and gun.has_method("recoil"): gun.recoil()
 	if reload_sound and reload_sound.stream: reload_sound.play()
 	
-	#Notify nearby enemies that shooting happened here
-	notify_nearby_violence(shooting_point.global_position)
 	# Cooldown timer
 	get_tree().create_timer(shot_cooldown).timeout.connect(_reset_shoot)
 
