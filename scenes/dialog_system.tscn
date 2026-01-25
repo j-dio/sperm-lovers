@@ -37,13 +37,13 @@ metadata/_edit_use_anchors_ = true
 [node name="NameLabel" type="RichTextLabel" parent="ControlNode/DialogBox"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.12999998
-anchor_top = 0.05
-anchor_right = 0.13
-anchor_bottom = 0.05
-offset_left = -59.0
-offset_right = 41.0
-offset_bottom = 40.000004
+anchor_left = 0.33
+anchor_top = 0.07
+anchor_right = 0.33
+anchor_bottom = -0.02
+offset_left = -160.0
+offset_right = 40.0
+offset_bottom = 40.0
 metadata/_edit_use_anchors_ = true
 
 [node name="TextLabel" type="RichTextLabel" parent="ControlNode/DialogBox"]

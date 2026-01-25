@@ -106,7 +106,6 @@ func handle_aim() -> void:
 		if aim_direction.length() > 0.1:
 			rotation.y = atan2(aim_direction.x, aim_direction.z)
 
-
 func _input(event: InputEvent) -> void:
 	# Left click to shoot
 	if event.is_action_pressed("shoot") and can_shoot and is_aiming:
@@ -116,12 +115,10 @@ func shoot() -> void:
 	if bullet_scene == null:
 		print("No bullet scene assigned!")
 		return
-
 	can_shoot = false
-
+	
 	# Play shoot sound
-	if shoot_sound and shoot_sound.stream:
-		shoot_sound.play()
+	if shoot_sound and shoot_sound.stream: shoot_sound.play()
 	
 	# Shotgun spread - spawn multiple pellets
 	for i in pellet_count:
@@ -134,20 +131,22 @@ func shoot() -> void:
 		var random_spread = randf_range(-spread_rad, spread_rad)
 		var spread_direction = aim_direction.rotated(Vector3.UP, random_spread)
 		bullet.direction = spread_direction
+		
+	# Trigger gun recoil and Play reload sound (pump-action style)
+	if gun and gun.has_method("recoil"): gun.recoil()
+	if reload_sound and reload_sound.stream: reload_sound.play()
 	
-	# Trigger gun recoil
-	if gun and gun.has_method("recoil"):
-		gun.recoil()
-
-	# Play reload sound (pump-action style, right after shooting)
-	if reload_sound and reload_sound.stream:
-		reload_sound.play()
-
 	# Cooldown timer
 	get_tree().create_timer(shot_cooldown).timeout.connect(_reset_shoot)
 
 func _reset_shoot() -> void:
 	can_shoot = true
+
+func notify_nearby_violence(violence_position: Vector3) -> void:
+	var all_enemies = get_tree().get_nodes_in_group("enemies")
+	for enemy in all_enemies:
+		if enemy.has_method("_on_nearby_violence"):
+			enemy._on_nearby_violence(violence_position)
 
 
 func take_damage(amount: int, attacker_position: Vector3) -> void:

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://l2cwtedexpk8" path="res://scripts/bullet.gd" id="1_2as5g"]
 [ext_resource type="AudioStream" uid="uid://cnhkr2sslfr73" path="res://sounds/thud-impact-sound-sfx-379990.mp3" id="2_0td6m"]
-[ext_resource type="AudioStream" uid="uid://bgiimk5cfr665" path="res://sounds/wet-squelchy-impact-352302.mp3" id="3_oklhc"]
+[ext_resource type="AudioStream" uid="uid://48w0jfekexa7" path="res://sounds/01_wet-squelchy-impact-352302-PSX.wav" id="3_0td6m"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2as5g"]
 albedo_color = Color(1, 1, 0.011764706, 1)
@@ -43,4 +43,4 @@ omni_range = 9.595942
 stream = ExtResource("2_0td6m")
 
 [node name="DeathSound" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("3_oklhc")
+stream = ExtResource("3_0td6m")
