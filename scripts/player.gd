@@ -20,6 +20,7 @@ extends CharacterBody3D
 @onready var shoot_sound: AudioStreamPlayer3D = $ShootSound
 @onready var reload_sound: AudioStreamPlayer3D = $ReloadSound
 @onready var hp_bar: Node3D = $HPBar
+@onready var activation_radius: Area3D = $ActivationRadius
 
 # Isometric direction conversion
 var iso_forward := Vector3(-1, 0, -1).normalized()
@@ -41,7 +42,10 @@ func _ready() -> void:
 	health = max_health
 	add_to_group("player")
 	if hp_bar:
-		hp_bar.update_health(health, max_health)  
+		hp_bar.update_health(health, max_health)
+	if activation_radius:
+		activation_radius.body_entered.connect(_on_activation_radius_body_entered)
+		activation_radius.body_exited.connect(_on_activation_radius_body_exited)  
 
 func _physics_process(delta: float) -> void:
 	handle_aiming_input()
@@ -175,3 +179,13 @@ func die() -> void:
 	print("Player died!")
 	# For now just print - can add respawn/game over logic later
 	queue_free()
+
+
+func _on_activation_radius_body_entered(body: Node3D) -> void:
+	if body.is_in_group("enemies") and body.has_method("activate"):
+		body.activate()
+
+
+func _on_activation_radius_body_exited(body: Node3D) -> void:
+	if body.is_in_group("enemies") and body.has_method("deactivate"):
+		body.deactivate()

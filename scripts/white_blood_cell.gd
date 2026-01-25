@@ -19,6 +19,7 @@ var home_position: Vector3
 var current_target: Node3D = null
 var is_chasing: bool = false
 var is_aggro: bool = false
+var is_active: bool = false
 var can_attack: bool = true
 var wander_stuck_timer: float = 0.0
 var last_position: Vector3
@@ -42,6 +43,9 @@ func _ready() -> void:
 	# Wait for navigation to be ready
 	await get_tree().physics_frame
 	await get_tree().physics_frame
+
+	# Start dormant until player is in range
+	deactivate()
 
 
 func _physics_process(delta: float) -> void:
@@ -219,3 +223,20 @@ func check_continuous_attack() -> void:
 			can_attack = false
 			get_tree().create_timer(attack_cooldown).timeout.connect(_reset_attack)
 			break
+
+
+func activate() -> void:
+	if is_active:
+		return
+	is_active = true
+	set_physics_process(true)
+
+
+func deactivate() -> void:
+	if is_aggro and is_chasing:
+		return  # Don't deactivate mid-chase
+	if not is_active:
+		return
+	is_active = false
+	set_physics_process(false)
+	velocity = Vector3.ZERO

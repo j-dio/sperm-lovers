@@ -11,6 +11,9 @@
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_dovo2"]
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_activation"]
+radius = 35.0
+
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_8afob")
 bullet_scene = ExtResource("5_bullet")
@@ -41,3 +44,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 fill_color = Color(0.5, 0.75, 0.25, 1)
 background_color = Color(0.5, 0.13, 0.13, 1)
 always_visible = true
+
+[node name="ActivationRadius" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ActivationRadius"]
+shape = SubResource("SphereShape3D_activation")
