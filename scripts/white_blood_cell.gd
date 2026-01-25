@@ -4,7 +4,7 @@ extends CharacterBody3D
 @export var wander_range: float = 3.0
 @export var max_health: int = 5
 var health: int
-@export var detection_range: float = 12.0
+@export var detection_range: float = 10.0
 @export var chase_speed: float = 2.5
 @export var attack_damage: int = 2
 @export var knockback_force: float = 12.0
