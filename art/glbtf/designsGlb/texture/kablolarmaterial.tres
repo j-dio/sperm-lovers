@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://dcm2ylilrfpkn"]
+[gd_resource type="StandardMaterial3D" load_steps=0 format=3 uid="uid://dcm2ylilrfpkn"]
 
 [resource]
 resource_name = "kablolarmaterial"

@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://kydy4r578wmi"]
+[gd_resource type="StandardMaterial3D" load_steps=0 format=3 uid="uid://kydy4r578wmi"]
 
 [resource]
 resource_name = "vendingmaterial"
