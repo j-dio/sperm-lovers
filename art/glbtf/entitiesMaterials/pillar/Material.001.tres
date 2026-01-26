@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://d3xj5v3gqg627"]
+
+[ext_resource type="Texture2D" uid="uid://dc1xr1luspg7i" path="res://art/glbtf/entitiesMaterials/pillar/pillar_Untitled.png" id="1_wjjs0"]
+
+[resource]
+resource_name = "Material.001"
+cull_mode = 2
+albedo_texture = ExtResource("1_wjjs0")
+roughness = 0.5

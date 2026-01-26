@@ -19,6 +19,7 @@ enum UnlockCondition {
 @onready var interact_area: Area3D = $InteractArea
 @onready var door_mesh: MeshInstance3D = $DoorMesh
 @onready var door_collision: CollisionShape3D = $DoorCollision
+@onready var audio_puzzle: AudioStreamPlayer = $AudioStreamPlayer
 
 var can_interact := false
 var dialog_playing := false
@@ -118,6 +119,8 @@ func _on_puzzle_completed() -> void:
 
 func remove_door() -> void:
 	print("Door removed!")
+	if audio_puzzle:
+		audio_puzzle.play()
 	if enemy_check_timer and not enemy_check_timer.is_stopped():
 		enemy_check_timer.stop()
 	if door_collision:

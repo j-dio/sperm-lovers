@@ -19,7 +19,6 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=640
 window/size/viewport_height=380
-window/size/mode=2
 window/stretch/mode="viewport"
 window/stretch/aspect="keep_height"
 mouse_cursor/custom_image="uid://bod4db0wdivro"
@@ -34,6 +33,7 @@ walls="walls mesh"
 player=""
 enemies=""
 interactable=""
+pillars=""
 
 [input]
 
