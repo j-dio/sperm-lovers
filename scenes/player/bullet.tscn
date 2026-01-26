@@ -20,7 +20,7 @@ radius = 0.2
 height = 1.823
 
 [node name="Bullet" type="Area3D"]
-collision_layer = 4
+collision_layer = 5
 collision_mask = 2
 script = ExtResource("1_2as5g")
 
@@ -34,7 +34,8 @@ shape = SubResource("CapsuleShape3D_2as5g")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 light_color = Color(1, 0.27450982, 0, 1)
-light_energy = 5.0
+light_energy = 20.0
+shadow_enabled = true
 distance_fade_enabled = true
 distance_fade_begin = 20.0
 omni_range = 9.595942

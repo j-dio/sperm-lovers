@@ -19,6 +19,7 @@ extends CharacterBody3D
 @onready var gun: Node3D = $Gun
 @onready var shoot_sound: AudioStreamPlayer3D = $ShootSound
 @onready var reload_sound: AudioStreamPlayer3D = $ReloadSound
+@onready var aim_sound: AudioStreamPlayer3D = $AimSound
 @onready var hp_bar: Node3D = $HPBar
 @onready var activation_radius: Area3D = $ActivationRadius
 
@@ -64,6 +65,7 @@ func _physics_process(delta: float) -> void:
 
 func handle_aiming_input() -> void:
 	is_aiming = Input.is_action_pressed("aim")
+	if Input.is_action_just_pressed("aim"): aim_sound.play()
 
 func handle_movement() -> void:
 	var input_dir := Vector3.ZERO

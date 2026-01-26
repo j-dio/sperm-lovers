@@ -44,6 +44,61 @@
 	"text": "ORRR~~ kill everyoneeee with cold blooddd!!!!! ^^"
   },
 
+	"DoorethyL1_0": {
+	  "name": "Doorethy",
+	  "text": "Swam further no~ no~! Hehe… how’s it feel bein’ tiny, huh?",
+	  "next": "DoorethyL1_1"
+	},
+	"DoorethyL1_1": {
+	  "name": "Doorethy",
+	  "text": "Maaaybe I’ll let you pass… IF you smash those weird pillars everywhere!",
+	  "next": "DoorethyL1_2"
+	},
+	"DoorethyL1_2": {
+	  "name": "Doorethy",
+	  "text": "There’s like… 50 of ’em~~~ <33",
+	  "next": "DoorethyL1_3"
+	},
+	"DoorethyL1_3": {
+	  "name": "Doorethy",
+	  "text": "JOKEEEE~!! XPPPP Who knows? :p",
+	  "next": "DoorethyL1_4"
+	},
+	"DoorethyL1_4": {
+	  "name": "Doorethy",
+	  "text": "Honestly tho… there’s sooo many of you and I’m waaay too tired >_<",
+	  "next": "DoorethyL1_5"
+	},
+	"DoorethyL1_5": {
+	  "name": "Doorethy",
+	  "text": "So~ why not help me and I’ll let you go further?",
+	  "next": "DoorethyL1_6"
+	},
+	"DoorethyL1_6": {
+	  "name": "Doorethy",
+	  "text": "Orrrr… you’ve got a gun for no reason, riiight?",
+	  "next": "DoorethyL1_7"
+	},
+	"DoorethyL1_7": {
+	  "name": "Doorethy",
+	  "text": "You’re kinda lucky~ there’s one right in front of me!",
+	  "next": "DoorethyL1_8"
+	},
+	"DoorethyL1_8": {
+	  "name": "Doorethy",
+	  "text": "Some peeps do that whole \"pacifist run\" thing...",
+	  "next": "DoorethyL1_9"
+	},
+	"DoorethyL1_9": {
+	  "name": "Doorethy",
+	  "text": "But like… why not be a little worse? :>>",
+	  "next": "DoorethyL1_10"
+	},
+	"DoorethyL1_10": {
+	  "name": "Doorethy",
+	  "text": "Go on! Shoo shoo! Break stuff! Surprise me!"
+	},
+
   "SpermDialogs": {
 	"Sperm0": {
 	  "name": "Sibling",

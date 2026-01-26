@@ -24,16 +24,30 @@ func _on_body_entered(body: Node3D) -> void:
 	print("Bullet hit: ", body.name, " Groups: ", body.get_groups())
 	var was_fatal := false
 	
+	# Get the root pillar node (parent chain up to one with script/groups)
+	var pillar = _get_pillar_root(body)
+	
 	# Handle enemy hit
 	if body.is_in_group("enemies") and body.has_method("take_damage"):
 		was_fatal = body.take_damage(damage)
-		
-		# Only alert nearby enemies if we actually damaged someone
 		alert_nearby_enemies(body.global_position)
 	
+	# For pillars
+	elif pillar and pillar.is_in_group("pillars") and pillar.has_method("take_damage"):
+		was_fatal = pillar.take_damage(damage)
+	
 	# Handle impact / death sound and cleanup
-	if body.is_in_group("enemies") or body.is_in_group("walls"):
+	if body.is_in_group("enemies") or body.is_in_group("walls") or body.is_in_group("pillars"):
 		play_impact_and_free(was_fatal)
+
+# Helper: Climb parent chain to find Pillar root (fast, stops at 3 levels max)
+func _get_pillar_root(body: Node3D) -> Node3D:
+	var current = body
+	for i in 3:  # Safety limit (Pillar → StaticBody3D is 1 level)
+		if current.is_in_group("pillars"): return current
+		current = current.get_parent()
+		if not current: break
+	return null
 
 
 func alert_nearby_enemies(hit_position: Vector3) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://dc3nrto6h6374"]
+[gd_scene load_steps=39 format=4 uid="uid://dc3nrto6h6374"]
 
 [ext_resource type="Script" uid="uid://c2vv85mquw12b" path="res://scripts/secret_ending.gd" id="1_2mu0v"]
 [ext_resource type="PackedScene" uid="uid://qxin0n6vbcb7" path="res://scenes/player/player.tscn" id="1_jbqir"]
@@ -20,6 +20,7 @@
 [ext_resource type="ArrayMesh" uid="uid://b5ttlbna42lla" path="res://art/glbtf/designsGlb/3dmeshes/FAB_Welcome.res" id="16_hppjq"]
 [ext_resource type="ArrayMesh" uid="uid://c642jqt64ckbf" path="res://art/glbtf/designsGlb/3dmeshes/FAB_table.res" id="16_os2yb"]
 [ext_resource type="PackedScene" uid="uid://c6sr2w4xbnhs6" path="res://scenes/dialog_system.tscn" id="18_v6k17"]
+[ext_resource type="Shader" uid="uid://dl51w1qcx1676" path="res://art/PSX_shader.gdshader" id="21_c7nhy"]
 
 [sub_resource type="Environment" id="Environment_hfwtw"]
 background_mode = 1
@@ -138,6 +139,11 @@ geometry_parsed_geometry_type = 1
 agent_height = 2.0
 agent_radius = 2.5
 agent_max_climb = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lxl1u"]
+shader = ExtResource("21_c7nhy")
+shader_parameter/viewport_size = Vector2(640, 480)
+shader_parameter/virtual_res = Vector2(320, 240)
 
 [node name="TestLevel" type="Node3D"]
 
@@ -350,10 +356,17 @@ transform = Transform3D(-0.019877879, 0, 0.9998024, 0, 1, 0, -0.9998024, 0, -0.0
 static_mode = true
 
 [node name="WhiteBloodCell" parent="Enemies" instance=ExtResource("4_v45ci")]
-transform = Transform3D(-0.09249227, 0, -0.9957134, 0, 1, 0, 0.9957134, 0, -0.09249227, -0.09750569, 1.6586838, -5.619664)
+transform = Transform3D(-0.09249227, 0, -0.9957134, 0, 1, 0, 0.9957134, 0, -0.09249227, -0.09750569, 1.1535463, -5.619664)
 static_mode = true
 chase_speed = 2.0
 model_rotation_offset = -1.571
 
-[node name="WhiteBloodCell2" parent="Enemies" instance=ExtResource("4_v45ci")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.154396, 1, -12.667085)
+[node name="Shader" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Shader"]
+material = SubResource("ShaderMaterial_lxl1u")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
