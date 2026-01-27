@@ -32,7 +32,7 @@ func _create_segments() -> void:
 	# Create segment panels
 	for i in range(segment_count):
 		var panel = Panel.new()
-		panel.custom_minimum_size = Vector2(18, 24)
+		panel.custom_minimum_size = Vector2(20.5, 22.5)
 
 		var style = StyleBoxFlat.new()
 		style.bg_color = empty_color

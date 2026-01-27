@@ -21,6 +21,6 @@ grow_vertical = 2
 show_percentage = false
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-pixel_size = 0.015
+pixel_size = 0.014
 billboard = 1
 texture = SubResource("ViewportTexture_sprite")
