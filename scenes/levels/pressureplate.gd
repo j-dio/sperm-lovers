@@ -5,7 +5,7 @@ signal power_changed(plate: Node, amount: int)
 @onready var visual: Node3D = $Visual
 @onready var mesh: MeshInstance3D = $Visual/Visual
 var mat: StandardMaterial3D
-var inactive_color := Color(1, 1, 1) # gray
+var inactive_color := Color(1, 0, 0) # gray
 var active_color := Color(0, 1, 0)   # green
 
 var bodies_on_plate := {}

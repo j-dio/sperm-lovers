@@ -164,6 +164,7 @@ omni_range = 7.206023
 
 [node name="FuseBox" parent="." instance=ExtResource("4_o34q2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.40298, -0.8526865, -3.1698217)
+collision_layer = 3
 
 [node name="door" parent="." instance=ExtResource("5_rdsj4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.076610565, -1.1033735, -7.718198)

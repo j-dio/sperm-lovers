@@ -1,9 +1,9 @@
 [gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dcluu5wci6815"]
 
-[ext_resource type="Texture2D" uid="uid://cya1cw05jffc5" path="res://art/glbtf/entitiesMaterials/boss/Boss_Untitled.png" id="1_4m0nm"]
+[ext_resource type="Texture2D" uid="uid://biymqtgmhmyt0" path="res://art/textures/meat.jpg" id="1_turdp"]
 
 [resource]
 resource_name = "Material.003"
 cull_mode = 2
-albedo_texture = ExtResource("1_4m0nm")
+albedo_texture = ExtResource("1_turdp")
 roughness = 0.5
