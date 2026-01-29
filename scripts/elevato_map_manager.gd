@@ -6,6 +6,8 @@ extends Node3D
 @export var spawn_check_radius: float = 0.5  # Reduced radius for closer spawning
 @export var respawn_enabled: bool = true
 @export var respawn_delay: float = 3.0  # Seconds before respawn
+@export var spawn_spread_radius: float = 2.0  # Random offset applied to spawn positions
+@export var attraction_start_delay: float = 0.5  # Delay before attraction starts (for spreading)
 
 # --- Tracking ---
 var active_siblings: Array[Node] = []
@@ -72,9 +74,28 @@ func spawn_sibling_at_position(spawn_pos: Vector3) -> void:
 
 	var new_sibling = sibling_scene.instantiate()
 
+	# Add random offset to spread siblings apart
+	var offset = Vector3(
+		randf_range(-spawn_spread_radius, spawn_spread_radius),
+		0,
+		randf_range(-spawn_spread_radius, spawn_spread_radius)
+	)
+	var final_spawn_pos = spawn_pos + offset
+
+	# Check if too close to existing active siblings, try to find better position
+	var attempts = 0
+	while _is_too_close_to_siblings(final_spawn_pos) and attempts < 5:
+		offset = Vector3(
+			randf_range(-spawn_spread_radius, spawn_spread_radius),
+			0,
+			randf_range(-spawn_spread_radius, spawn_spread_radius)
+		)
+		final_spawn_pos = spawn_pos + offset
+		attempts += 1
+
 	# Add to scene
 	get_tree().current_scene.add_child(new_sibling)
-	new_sibling.global_position = spawn_pos
+	new_sibling.global_position = final_spawn_pos
 
 	# Track this sibling
 	active_siblings.append(new_sibling)
@@ -88,6 +109,23 @@ func spawn_sibling_at_position(spawn_pos: Vector3) -> void:
 
 	# Always connect tree_exited for cleanup
 	new_sibling.tree_exited.connect(_handle_sibling_removed.bind(new_sibling))
+
+	# Start attraction to toilet after a short delay to let them spread out first
+	if new_sibling.has_method("start_attraction_to_toilet"):
+		_delayed_start_attraction(new_sibling)
+
+func _is_too_close_to_siblings(pos: Vector3) -> bool:
+	for sibling in active_siblings:
+		if is_instance_valid(sibling):
+			var dist = pos.distance_to(sibling.global_position)
+			if dist < spawn_check_radius * 2:  # Use 2x check radius for respawn spacing
+				return true
+	return false
+
+func _delayed_start_attraction(sibling: Node) -> void:
+	await get_tree().create_timer(attraction_start_delay).timeout
+	if is_instance_valid(sibling) and sibling.has_method("start_attraction_to_toilet"):
+		sibling.start_attraction_to_toilet()
 
 func clear_map() -> void:
 	for sibling in active_siblings:

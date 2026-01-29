@@ -15,8 +15,8 @@ signal died()  # For MapManager respawn system
 @export var attack_damage: int = 1
 @export var attack_cooldown: float = 1.5
 @export var stop_distance: float = 1.2
-@export var separation_radius: float = 2.0
-@export var separation_force: float = 1.5
+@export var separation_radius: float = 2.5
+@export var separation_force: float = 3.0
 @export var model_rotation_offset: float = -PI/2
 
 @export var wake_on_violence_range: float = 12.0
@@ -49,6 +49,7 @@ var last_position: Vector3
 
 var player_in_hitbox: bool = false
 var is_dead: bool = false
+var aggro_no_target_timer: float = 0.0  # Timer for returning to toilet if no target found
 
 # Attraction (only to toilet zone)
 var toilet_attraction_position: Vector3 = Vector3.ZERO
@@ -83,11 +84,14 @@ func _ready() -> void:
 
 func _find_toilet_attraction_target() -> void:
 	# Try multiple methods to find the attraction target
-	
+
 	# Method 1: Check for nodes in "attraction_toilet" group
 	var candidates = get_tree().get_nodes_in_group("attraction_toilet")
-	if not candidates.is_empty():
-		var candidate = candidates[0]
+	for candidate in candidates:
+		# Skip if this node is part of ourselves (safety check)
+		if candidate == self or is_ancestor_of(candidate) or candidate.is_ancestor_of(self):
+			continue
+
 		if candidate is Node3D:
 			toilet_attraction_position = candidate.global_position
 			print("[Sperm] Found attraction via group: ", candidate.name, " at ", toilet_attraction_position)
@@ -96,7 +100,7 @@ func _find_toilet_attraction_target() -> void:
 			toilet_attraction_position = candidate.get_parent().global_position
 			print("[Sperm] Found attraction via group parent: ", candidate.get_parent().name, " at ", toilet_attraction_position)
 			return
-	
+
 	# Method 2: Search for Attraction node by path pattern
 	var root = get_tree().current_scene
 	for node in _find_all_nodes(root):
@@ -104,7 +108,7 @@ func _find_toilet_attraction_target() -> void:
 			toilet_attraction_position = node.global_position
 			print("[Sperm] Found Attraction node at: ", toilet_attraction_position)
 			return
-	
+
 	# Method 3: Fallback - stay in place and warn
 	push_warning("[Sperm] No attraction_toilet found! Sperm will stay in place.")
 	toilet_attraction_position = global_position
@@ -143,20 +147,29 @@ func _physics_process(delta: float) -> void:
 
 	# Aggro mode: chase player
 	if is_aggro:
-		detect_targets()
-
-		if is_chasing and is_instance_valid(current_target):
-			nav_agent.target_position = current_target.global_position
+		# When aggro, always try to find and chase player (no range limit)
+		var player = get_tree().get_first_node_in_group("player")
+		if player and is_instance_valid(player):
+			current_target = player
+			is_chasing = true
+			aggro_no_target_timer = 0.0
 
 			var dist = global_position.distance_to(current_target.global_position)
 
 			# Always move toward player if not at attack range
 			if dist > stop_distance:
+				# Try navigation first
+				nav_agent.target_position = current_target.global_position
 				var next_pos = nav_agent.get_next_path_position()
 				var dir = (next_pos - global_position).normalized()
 				dir.y = 0
 
 				if dir.length() > 0.01:
+					velocity = dir * chase_speed
+				else:
+					# Navigation failed - use direct movement as fallback
+					dir = (current_target.global_position - global_position).normalized()
+					dir.y = 0
 					velocity = dir * chase_speed
 			else:
 				# Within attack range - still move closer but slower for precise positioning
@@ -164,6 +177,15 @@ func _physics_process(delta: float) -> void:
 				dir.y = 0
 				if dir.length() > 0.01:
 					velocity = dir * (chase_speed * 0.3)  # Move slower when in attack range
+		else:
+			# No player found - return to toilet attraction after timeout
+			aggro_no_target_timer += delta
+			if aggro_no_target_timer > 2.0:
+				print("[Sperm] No player found, returning to toilet attraction")
+				is_aggro = false
+				is_chasing = false
+				is_attracted_to_toilet = true
+				aggro_no_target_timer = 0.0
 
 	# Peaceful wandering (only if not aggro and not static)
 	elif not static_mode:
@@ -194,6 +216,9 @@ func _physics_process(delta: float) -> void:
 	if is_aggro:
 		check_continuous_attack()
 
+var attraction_stuck_timer: float = 0.0
+var last_attraction_position: Vector3 = Vector3.ZERO
+
 func _handle_toilet_attraction(delta: float) -> void:
 	var to_target = toilet_attraction_position - global_position
 	to_target.y = 0
@@ -201,17 +226,46 @@ func _handle_toilet_attraction(delta: float) -> void:
 	if to_target.length() < attraction_stop_distance:
 		is_attracted_to_toilet = false
 		velocity = Vector3.ZERO
+		attraction_stuck_timer = 0.0
+		# Update home position to toilet so we wander here, not back to spawn
+		home_position = global_position
+		wander_target = global_position
 		print("[Sperm] Reached attraction target!")
 		return
 
-	var dir = to_target.normalized()
-	velocity = dir * attraction_speed
+	# Use navigation agent to path around obstacles
+	nav_agent.target_position = toilet_attraction_position
+	var next_pos = nav_agent.get_next_path_position()
+	var dir = (next_pos - global_position).normalized()
+	dir.y = 0
 
-	# Light separation during attraction
-	velocity += get_separation_from_enemies() * 0.6
+	if dir.length() > 0.01:
+		velocity = dir * attraction_speed
+	else:
+		# Fallback to direct movement if nav fails
+		velocity = to_target.normalized() * attraction_speed
+
+	# Strong separation during attraction to prevent bunching
+	velocity += get_separation_from_enemies()
 
 	move_and_slide()
 	_rotate_toward_movement()
+
+	# Stuck detection during attraction
+	var moved = global_position.distance_to(last_attraction_position)
+	if moved < 0.15:
+		attraction_stuck_timer += delta
+		if attraction_stuck_timer > 0.8:
+			# Push in a random direction to unstick
+			var random_push = Vector3(randf_range(-1, 1), 0, randf_range(-1, 1)).normalized()
+			global_position += random_push * 0.5  # Teleport slightly to break free
+			velocity = random_push * attraction_speed * 2.0
+			move_and_slide()
+			attraction_stuck_timer = 0.0
+			print("[Sperm] Unsticking from toilet attraction")
+	else:
+		attraction_stuck_timer = 0.0
+	last_attraction_position = global_position
 
 func _handle_valve_attraction(delta: float) -> void:
 	var to_target = valve_attraction_position - global_position
@@ -219,17 +273,42 @@ func _handle_valve_attraction(delta: float) -> void:
 
 	# Move toward valve but don't stop - crowd around it
 	if to_target.length() > 0.5:
-		var dir = to_target.normalized()
-		velocity = dir * attraction_speed
+		# Use navigation agent to path around obstacles
+		nav_agent.target_position = valve_attraction_position
+		var next_pos = nav_agent.get_next_path_position()
+		var dir = (next_pos - global_position).normalized()
+		dir.y = 0
+
+		if dir.length() > 0.01:
+			velocity = dir * attraction_speed
+		else:
+			# Fallback to direct movement if nav fails
+			velocity = to_target.normalized() * attraction_speed
 	else:
 		# Very close - slow down but keep slight movement
 		velocity = to_target * 0.5
 
-	# Light separation during attraction
-	velocity += get_separation_from_enemies() * 0.4
+	# Moderate separation during valve attraction
+	velocity += get_separation_from_enemies() * 0.6
 
 	move_and_slide()
 	_rotate_toward_movement()
+
+	# Stuck detection during valve attraction
+	var moved = global_position.distance_to(last_attraction_position)
+	if moved < 0.15:
+		attraction_stuck_timer += delta
+		if attraction_stuck_timer > 0.8:
+			# Push in a random direction to unstick
+			var random_push = Vector3(randf_range(-1, 1), 0, randf_range(-1, 1)).normalized()
+			global_position += random_push * 0.5  # Teleport slightly to break free
+			velocity = random_push * attraction_speed * 2.0
+			move_and_slide()
+			attraction_stuck_timer = 0.0
+			print("[Sperm] Unsticking from valve attraction")
+	else:
+		attraction_stuck_timer = 0.0
+	last_attraction_position = global_position
 
 func _check_contact_damage() -> void:
 	if not can_deal_contact_damage:
@@ -240,7 +319,9 @@ func _check_contact_damage() -> void:
 	if player and is_instance_valid(player):
 		var dist = global_position.distance_to(player.global_position)
 		if dist < 1.5 and player.has_method("take_damage"):
-			player.take_damage(contact_damage, global_position)
+			# No knockback when attracted to valve - allows player to stay and tank damage
+			var apply_knockback = not is_attracted_to_valve
+			player.take_damage(contact_damage, global_position, apply_knockback)
 			can_deal_contact_damage = false
 			get_tree().create_timer(contact_damage_cooldown).timeout.connect(_reset_contact_damage)
 			print("[Sperm] Dealt contact damage to player!")
@@ -261,9 +342,11 @@ func on_valve_activated(valve_pos: Vector3) -> void:
 # Called by Level2Puzzle when valve is deactivated
 func on_valve_deactivated() -> void:
 	is_attracted_to_valve = false
-	# Return to toilet attraction
-	is_attracted_to_toilet = true
-	print("[Sperm] Valve deactivated, returning to toilet attraction")
+	# Chase the player instead of returning to toilet - allows kiting mechanic
+	is_aggro = true
+	is_chasing = true
+	is_attracted_to_toilet = false
+	print("[Sperm] Valve deactivated, now chasing player!")
 
 func _rotate_toward_movement() -> void:
 	if velocity.length() < 0.1: return
@@ -277,7 +360,12 @@ func start_attraction_to_toilet() -> void:
 	is_attracted_to_toilet = true
 	is_aggro = false
 	is_chasing = false
+	is_attracted_to_valve = false
 	current_target = null
+	# Reset stuck detection
+	attraction_stuck_timer = 0.0
+	aggro_no_target_timer = 0.0
+	last_attraction_position = global_position
 	print("[Sperm] Started attraction to toilet at ", toilet_attraction_position)
 
 func stop_attraction_to_toilet() -> void:
@@ -337,7 +425,14 @@ func detect_targets() -> void:
 func become_aggro() -> void:
 	if is_aggro: return
 	is_aggro = true
+	is_chasing = true
+	# Clear all attraction states
 	is_attracted_to_toilet = false
+	is_attracted_to_valve = false
+	# Find and target the player immediately
+	var player = get_tree().get_first_node_in_group("player")
+	if player and is_instance_valid(player):
+		current_target = player
 	print("[Sperm] Became aggro!")
 
 func take_damage(amount: int) -> bool:
