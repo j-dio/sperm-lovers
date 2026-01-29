@@ -40,6 +40,98 @@
 	{ "name": "Doorethy", "text": "Go on! Shoo shoo! Break stuff! Surprise me!" }
   ],
 
+"DoorethyL3_0": [
+  { "name": "Doorethy", "text": "You really are stinky... but worse than them.", "karma": { "max": -0.1 } },
+  { "name": "Doorethy", "text": "And so...", "karma": { "max": -0.1 } },
+  { "name": "Doorethy", "text": "Alive? But...", "karma": { "max": -0.1 } },
+
+  { "name": "Doorethy", "text": "Well hello there, tiny one!", "karma": { "min": 1.0 } },
+  { "name": "Doorethy", "text": "Care to help me again, hmm?", "karma": { "min": 1.0 } },
+
+  { "name": "Doorethy", "text": "You came so far!!" },
+
+  { "name": "Doorethy", "text": "Can’t actually believe you helped me.", "karma": { "min": 1.0 } },
+  { "name": "Doorethy", "text": "No brothers can actually be like you! You’re smart! :3", "karma": { "min": 1.0 } },
+
+  { "name": "Doorethy", "text": "Can’t actually believe you did all of my work!", "karma": { "max": -0.1 } },
+  { "name": "Doorethy", "text": "You blitzin’ around, ya da yada, boogsh boogsh!", "karma": { "max": -0.1 } },
+  
+  { "name": "Doorethy", "text": "You really are crazy..." },
+  { "name": "Doorethy", "text": "Anyways~!" },
+  { "name": "Doorethy", "text": "You’re now deeper into this place ^^!" },
+  { "name": "Doorethy", "text": "Problem though..." },
+  { "name": "Doorethy", "text": "This place got messed up a few weeks ago... :(((" },
+  { "name": "Doorethy", "text": "Now it’s way more dangerous!! Ughhh..." },
+  { "name": "Doorethy", "text": "Well..." },
+  { "name": "Doorethy", "text": "This is the only place to go deeper for your wiggly business." },
+  { "name": "Doorethy", "text": "AND I...." },
+  { "name": "Doorethy", "text": "SAY, this gotta be the most hardest level you need to finish! :p LOLZ" },
+  { "name": "Doorethy", "text": "So...." },
+  { "name": "Doorethy", "text": "......" },
+  { "name": "Doorethy", "text": "Wanna help me again~~?" },
+
+  { "name": "Doorethy", "text": "Pls pls, good wiggly thing :3333", "karma": { "min": 1.0 } },
+  { "name": "Doorethy", "text": "Pls pls, crazy little one??? uwu", "karma": { "max": -0.1 } },
+
+  { "name": "Doorethy", "text": "As if you had other options! Tehee~ :p" },
+  { "name": "Doorethy", "text": "So this place used to deliver proteins and stuff..." },
+  { "name": "Doorethy", "text": "And now it’s all messed up, you see </3." },
+  { "name": "Doorethy", "text": "Though! It’s still functional!" },
+  { "name": "Doorethy", "text": "The doors only though... T-T huhuhuhu" },
+  { "name": "Doorethy", "text": "Workers used to place boxes on those red buttons." },
+  { "name": "Doorethy", "text": "So..." },
+  { "name": "Doorethy", "text": "Put them back to make this place functional again—and you get out too!!!" },
+  { "name": "Doorethy", "text": "Win-win for the both of us, eyh~? :p" },
+  { "name": "Doorethy", "text": "Why not try it out after I get deleted, ok?? <3" },
+  { "name": "Doorethy", "text": "Now go on!! Do your work!" }
+],
+
+"DoorethyL3_1": [
+  { "name": "Doorethy", "text": "Well? How is it? :3" },
+  { "name": "Doorethy", "text": "Pretty darn tiresome, eh.....??" },
+  { "name": "Doorethy", "text": "I got bigger as well! XD" },
+
+  { "name": "Doorethy", "text": "Seems those Smiley guys are heavy enough to activate the buttons..." },
+  { "name": "Doorethy", "text": "If there’s a way to stop them from \"moving\" ...." },
+  { "name": "Doorethy", "text": "But ohh well!!!" },
+
+  { "name": "Doorethy", "text": "Now now, you gonna do it more! :P" },
+  { "name": "Doorethy", "text": "There should be...." },
+  { "name": "Doorethy", "text": "Like ughhh...." },
+  { "name": "Doorethy", "text": "Ughhh....." },
+  { "name": "Doorethy", "text": "Ah!" },
+
+  { "name": "Doorethy", "text": "Like 5 buttons in total!" },
+  { "name": "Doorethy", "text": "They’re scattered everywhere, but you’re an adventurer—this gonna be easy for you!" },
+
+  { "name": "Doorethy", "text": "Alright, alright, you may now—" },
+  { "name": "Doorethy", "text": "RIGHT! I forgot... teheeheh T-T" },
+  { "name": "Doorethy", "text": "Remember that I said this place is now more dangerous?" },
+  { "name": "Doorethy", "text": "There’s some green gooey stuff that can hurt realy bad </3w" },
+  { "name": "Doorethy", "text": "You can see it naman to your camera nue?? :3" },
+  { "name": "Doorethy", "text": "So be wary of that, kay~? ^^" }
+],
+
+"DoorethyL3_2": [
+  { "name": "Doorethy", "text": "WOAH!!! :000" },
+  { "name": "Doorethy", "text": "You actually made it—YAY XD!" },
+
+  { "name": "Doorethy", "text": "I’m pretty damn sure you used those huge guys, eyh!? >:(", "karma": { "max": -0.1 } },
+  { "name": "Doorethy", "text": "I’m pretty damn sure you placed all those boxes to the center, eyh!?", "karma": { "min": 1.0 } },
+
+  { "name": "Doorethy", "text": "Anyways..." },
+  { "name": "Doorethy", "text": "Ugghh..." },
+  { "name": "Doorethy", "text": "I should be blocking you." },
+
+  { "name": "Doorethy", "text": "...." },
+  { "name": "Doorethy", "text": "...." },
+  { "name": "Doorethy", "text": "Hmm.", "karma": { "max": -0.1 } },
+
+  { "name": "Doorethy", "text": "Anywayss~~~" },
+  { "name": "Doorethy", "text": "Since you’ve done your part, I’mma delete myself now!" },
+  { "name": "Doorethy", "text": "I hope you’ll survive what’s next, wiggly guy! :pp" }
+],
+
 "DoorethyEnding_Bad": [
 	{ "name": "Doorethy", "text": ":0000 WHAT IS THAT!!@!@???" },
 	{ "name": "Doorethy", "text": "KILLL THAT THING!!!!@!@!@" },

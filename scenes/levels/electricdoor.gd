@@ -1,10 +1,9 @@
 extends Node3D
 
 @export var required_power: int = 2
-
+@onready var audio: AudioStreamPlayer = $Audio
 @onready var anim: AnimationPlayer = $DoorAnimation
 @onready var door_body: StaticBody3D = $StaticBody3D
-@onready var collider: CollisionShape3D = $StaticBody3D/CollisionShape3D
 
 var current_power := 0
 var is_open := false
@@ -36,6 +35,7 @@ func open_door():
 	is_open = true
 
 	if anim.has_animation("open"):
+		audio.play()
 		anim.play("open")
 
 
