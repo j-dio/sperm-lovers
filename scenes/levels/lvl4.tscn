@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dunjj20kuxmak"]
+
+[ext_resource type="PackedScene" uid="uid://dn7acwhuy6h7r" path="res://scenes/enemies/level1_sperm.tscn" id="1_ccend"]
+
+[node name="Lvl4" type="Node3D"]
+
+[node name="SiblingSperm" parent="." instance=ExtResource("1_ccend")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.048837, 0, 7.6828055)
