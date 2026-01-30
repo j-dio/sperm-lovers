@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://chtds2ovitwh8"]
+[gd_scene load_steps=28 format=4 uid="uid://chtds2ovitwh8"]
 
 [ext_resource type="Script" uid="uid://c2xaendkngky8" path="res://scripts/camera_follow.gd" id="1_0ktui"]
 [ext_resource type="PackedScene" uid="uid://qxin0n6vbcb7" path="res://scenes/player/player.tscn" id="2_shfvi"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://bli432i5uj51v" path="res://addons/TileMapLayer3D/core/tile_creation_placement/tilemap_layer_settings.gd" id="12_msnsy"]
 [ext_resource type="Script" uid="uid://bemebak3vhd6j" path="res://scripts/boss_bar.gd" id="13_4rdhu"]
 [ext_resource type="PackedScene" uid="uid://ciluydixohjfm" path="res://scenes/abstract_door.tscn" id="14_476yt"]
+[ext_resource type="ArrayMesh" uid="uid://c642jqt64ckbf" path="res://art/glbtf/designsGlb/3dmeshes/FAB_table.res" id="15_0ktui"]
 [ext_resource type="Script" uid="uid://c2vv85mquw12b" path="res://scripts/secret_ending.gd" id="15_rtlsc"]
 
 [sub_resource type="Environment" id="Environment_1homy"]
@@ -361,3 +362,23 @@ light_color = Color(0.4080818, 3.4231513, 0, 1)
 light_energy = 16.0
 spot_range = 24.583467
 spot_angle = 38.735863
+
+[node name="FabTable" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.0038396781, -0.9999926, 0, 0.9999926, 0.0038396781, 0, 1, -102.1128)
+mesh = ExtResource("15_0ktui")
+
+[node name="FabTable2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.0038396781, -0.9999926, 0, 0.9999926, 0.0038396781, 0, 1, -108.53693)
+mesh = ExtResource("15_0ktui")
+
+[node name="FabTable3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.0038396781, -0.9999926, 0, 0.9999926, 0.0038396781, 0, 1, -114.883675)
+mesh = ExtResource("15_0ktui")
+
+[node name="FabTable4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.0038396781, -0.9999926, 0, 0.9999926, 0.0038396781, -6.2829933, 1, -114.883675)
+mesh = ExtResource("15_0ktui")
+
+[node name="FabTable5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.0038396781, -0.9999926, 0, 0.9999926, 0.0038396781, 6.1520023, 1, -114.883675)
+mesh = ExtResource("15_0ktui")
