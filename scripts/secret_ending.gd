@@ -2,7 +2,9 @@ extends Area3D
 
 # Dialogue configuration
 @export var dialogue_canvas_path: NodePath
-@export var next_scene: PackedScene
+
+## Path to the ending video scene
+@export_file("*.tscn") var ending_video_scene: String = "res://scenes/ui/ending_video_player.tscn"
 
 # First interaction: auto-chain dialogue (array or classic key)
 @export_group("Auto-Chain Dialogue")
@@ -63,7 +65,7 @@ func _on_auto_chain_finished():
 	print("Auto-chain dialogue finished")
 	just_closed_dialogue = true
 
-	# Optionally change scene after first dialogue ends
-	if next_scene:
-		print("Changing scene...")
-		get_tree().change_scene_to_packed(next_scene)
+	# Transition to the ending video
+	if ending_video_scene != "":
+		print("Playing ending video...")
+		get_tree().change_scene_to_file(ending_video_scene)
