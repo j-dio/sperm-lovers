@@ -14,7 +14,7 @@
 [ext_resource type="Script" uid="uid://bli432i5uj51v" path="res://addons/TileMapLayer3D/core/tile_creation_placement/tilemap_layer_settings.gd" id="12_msnsy"]
 [ext_resource type="PackedScene" uid="uid://ciluydixohjfm" path="res://scenes/abstract_door.tscn" id="14_476yt"]
 [ext_resource type="ArrayMesh" uid="uid://c642jqt64ckbf" path="res://art/glbtf/designsGlb/3dmeshes/FAB_table.res" id="15_0ktui"]
-[ext_resource type="Script" uid="uid://c2vv85mquw12b" path="res://scripts/secret_ending.gd" id="15_rtlsc"]
+[ext_resource type="Script" path="res://scripts/good_ending.gd" id="15_rtlsc"]
 
 [sub_resource type="Environment" id="Environment_1homy"]
 background_mode = 1

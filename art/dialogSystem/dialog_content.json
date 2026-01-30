@@ -13,6 +13,27 @@
     { "name": "???", "text": "...and walk toward the light." }
   ],
 
+  "GoodEnding_Egg": [
+    { "name": "The Egg", "text": "You've come so far, little one." },
+    {
+      "name": "The Egg",
+      "text": "Through trials of the mind, you proved your worth."
+    },
+    {
+      "name": "The Egg",
+      "text": "No blood on your hands. No violence in your heart."
+    },
+    { "name": "You", "text": "I... I made it?" },
+    { "name": "The Egg", "text": "You did more than survive." },
+    { "name": "The Egg", "text": "You showed wisdom. Patience. Compassion." },
+    { "name": "The Egg", "text": "These are the traits I've waited for." },
+    { "name": "You", "text": "What happens now?" },
+    { "name": "The Egg", "text": "Now... we become one." },
+    { "name": "The Egg", "text": "A new life begins. Our life." },
+    { "name": "The Egg", "text": "Welcome home." },
+    { "name": "???", "text": "The light embraces you..." }
+  ],
+
   "DevWelcomeL1": {
     "name": "[REDACTED]",
     "text": "Approach and talk with Doorethy."
