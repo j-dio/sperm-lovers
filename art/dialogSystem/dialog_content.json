@@ -40,6 +40,24 @@
 	{ "name": "Doorethy", "text": "Go on! Shoo shoo! Break stuff! Surprise me!" }
   ],
 
+"DoorethyL2": [
+  { "name": "Doorethy", "text": "How is the place? :>" },
+  { "name": "Doorethy", "text": "Quite a mess you made earlier..... ToT", "karma": { "max": -0.1 } },
+  { "name": "Doorethy", "text": "You actually searched all em pillars!! YAY XD", "karma": { "min": 1.0 } },
+  { "name": "Doorethy", "text": "Whale..." },
+  { "name": "Doorethy", "text": "...." },
+  { "name": "Doorethy", "text": "This place is quite interesting reallyy..." },
+  { "name": "Doorethy", "text": "Elevator n stuffs... floating buttons... weird humming sounds..." },
+  { "name": "Doorethy", "text": "I dont even know what the developers were thinking with this puzzle... huhuhu" },
+  { "name": "Doorethy", "text": "Your brothers n you are really into the race now... :000" },
+  { "name": "Doorethy", "text": "All scrambling for that one seat to go up... sigh" },
+  { "name": "Doorethy", "text": "Im pretty sure those valves attract em—your brothers, my swiggly thing!" },
+  { "name": "Doorethy", "text": "Or idk... maybe u can attract em or sumthin yourself hehe~ :3" },
+  { "name": "Doorethy", "text": "Agghh! Ikaw na bahala dyans! Figure it out, wiggly disaster~ <3" },
+  { "name": "Doorethy", "text": "Bye bye for now, see u above tiny one~! ✨" },
+  { "name": "Doorethy", "text": "Don't fall too much... or do. Makes it funnier. Tehe~! :pp" }
+],
+
 "DoorethyL3_0": [
   { "name": "Doorethy", "text": "You really are stinky... but worse than them.", "karma": { "max": -0.1 } },
   { "name": "Doorethy", "text": "And so...", "karma": { "max": -0.1 } },
