@@ -14,7 +14,7 @@
 [ext_resource type="Material" uid="uid://cupdd4e00eo2p" path="res://art/glbtf/entitiesMaterials/door/Material.001.tres" id="11_hgcut"]
 [ext_resource type="PackedScene" uid="uid://ciluydixohjfm" path="res://scenes/abstract_door.tscn" id="14_ko2it"]
 [ext_resource type="PackedScene" uid="uid://c6sr2w4xbnhs6" path="res://scenes/dialog_system.tscn" id="14_x484u"]
-[ext_resource type="Script" uid="uid://c2vv85mquw12b" path="res://scripts/secret_ending.gd" id="15_hgcut"]
+[ext_resource type="Script" path="res://scripts/bad_ending.gd" id="15_hgcut"]
 [ext_resource type="Shader" uid="uid://dl51w1qcx1676" path="res://art/PSX_shader.gdshader" id="16_6nqgy"]
 
 [sub_resource type="Environment" id="Environment_1homy"]

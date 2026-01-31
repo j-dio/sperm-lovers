@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/ending_video_player.gd" id="1_script"]
 
-[node name="GoodEndingVideoPlayer" type="Control"]
+[node name="BadEndingVideoPlayer" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,25 +10,31 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
-video_path = "res://endings/GoodEnding.ogv"
+video_path = "res://endings/BadEnding.ogv"
 next_scene_path = "res://scenes/levels/1_MAIN_MENU.tscn"
-ending_text = "THE GOOD ENDING
+ending_text = "THE BAD ENDING
 
-You did it.
+You were crushed.
 
-Against all odds, through wisdom and perseverance,
-you proved yourself worthy.
+All that violence, all that blood...
+and for what?
 
-The Egg welcomed you with open arms.
-A new life begins.
+Doorethy was right.
+You were the monster all along.
 
-Out of millions, you were chosen.
-Not through violence, but through virtue.
+Every sibling you killed,
+every choice you made,
+led you here.
 
-This is your victory.
-This is your destiny fulfilled.
+To this moment.
+To your end.
 
-Congratulations.
+But maybe...
+it wasn't entirely your fault.
+
+After all, someone was holding the controls.
+
+Game Over.
 
 - The Sperm Sanity Team"
 
@@ -83,7 +89,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+color = Color(0.05, 0, 0, 1)
 
 [node name="EndingLabel" type="Label" parent="EndingTextContainer"]
 layout_mode = 1
@@ -98,7 +104,7 @@ offset_right = 280.0
 offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_colors/font_color = Color(0.8, 0.2, 0.2, 1)
 theme_override_font_sizes/font_size = 16
 text = ""
 horizontal_alignment = 1
@@ -117,7 +123,7 @@ offset_right = 100.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 0.7)
+theme_override_colors/font_color = Color(0.5, 0.2, 0.2, 0.7)
 theme_override_font_sizes/font_size = 12
 text = "Press any key to continue"
 horizontal_alignment = 1

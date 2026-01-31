@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 video_path = "res://endings/SecretEnding.ogv"
-next_scene_path = "res://scenes/menu_new.tscn"
+next_scene_path = "res://scenes/levels/1_MAIN_MENU.tscn"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
