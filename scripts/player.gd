@@ -207,7 +207,27 @@ func _end_invincibility() -> void:
 
 func die() -> void:
 	print("Player died!")
-	queue_free()
+	
+	# Show death screen with retry option
+	var death_screen = get_tree().get_first_node_in_group("death_screen")
+	if death_screen:
+		death_screen.show_death_screen()
+	else:
+		# Fallback: try to instance it
+		var death_scene = load("res://scenes/ui/death_screen.tscn")
+		if death_scene:
+			var instance = death_scene.instantiate()
+			get_tree().current_scene.add_child(instance)
+			instance.show_death_screen()
+		else:
+			push_warning("Death screen scene not found!")
+			queue_free()
+			return
+	
+	# Hide player but don't free (scene will reload on retry)
+	visible = false
+	set_physics_process(false)
+	set_process(false)
 
 
 func _deactivate_distant_enemies() -> void:
