@@ -35,6 +35,7 @@ var can_shoot := true
 
 # Health state
 var health: int
+var is_dead := false
 var is_invincible := false
 var knockback_velocity := Vector3.ZERO
 
@@ -206,6 +207,11 @@ func _end_invincibility() -> void:
 
 
 func die() -> void:
+	# Prevent multiple death calls
+	if is_dead:
+		return
+	is_dead = true
+	
 	print("Player died!")
 	
 	# Show death screen with retry option
