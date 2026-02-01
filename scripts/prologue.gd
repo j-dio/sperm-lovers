@@ -85,7 +85,10 @@ func _process(delta: float) -> void:
 	text_label.visible_characters += int(delta * text_speed) + 1
 	text_label.visible_characters = mini(text_label.visible_characters, total)
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
+	_handle_page_advance(event)
+
+func _handle_page_advance(event: InputEvent) -> void:
 	var advance = false
 
 	if event is InputEventMouseButton:
