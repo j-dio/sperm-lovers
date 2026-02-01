@@ -15,6 +15,9 @@ extends CharacterBody3D
 @export var knockback_force: float = 15.0
 @export var invincibility_duration: float = 0.3
 
+# Preload death screen for reliability
+const DEATH_SCREEN_SCENE = preload("res://scenes/ui/death_screen.tscn")
+
 @onready var shooting_point: Node3D = $ShootingPoint
 @onready var gun: Node3D = $Gun
 @onready var shoot_sound: AudioStreamPlayer3D = $ShootSound
@@ -214,26 +217,22 @@ func die() -> void:
 	
 	print("Player died!")
 	
+	# Hide player immediately
+	visible = false
+	set_physics_process(false)
+	set_process(false)
+	
 	# Show death screen with retry option
 	var death_screen = get_tree().get_first_node_in_group("death_screen")
 	if death_screen:
 		death_screen.show_death_screen()
 	else:
-		# Fallback: try to instance it
-		var death_scene = load("res://scenes/ui/death_screen.tscn")
-		if death_scene:
-			var instance = death_scene.instantiate()
-			get_tree().current_scene.add_child(instance)
-			instance.show_death_screen()
-		else:
-			push_warning("Death screen scene not found!")
-			queue_free()
-			return
-	
-	# Hide player but don't free (scene will reload on retry)
-	visible = false
-	set_physics_process(false)
-	set_process(false)
+		# Fallback: instantiate death screen from preloaded scene
+		var instance = DEATH_SCREEN_SCENE.instantiate()
+		# Add to root to ensure it persists and works correctly
+		get_tree().root.add_child(instance)
+		# Use call_deferred to ensure the node is fully in the tree
+		instance.call_deferred("show_death_screen")
 
 
 func _deactivate_distant_enemies() -> void:
