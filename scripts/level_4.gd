@@ -177,8 +177,8 @@ func check_input(color: String):
 		# Implies, player won, thus, no need to ask for user input
 		is_player_turn = false
 		
-		# Reward patience with karma (+5 per round completed)
-		if GameManager: GameManager.add_karma_xp(20.0)
+		# Reward patience with karma (+8 per round completed, balanced)
+		if GameManager: GameManager.add_karma_xp(8.0)
 		if current_round == 10:
 			# load an conversation related: "Ugh... FINE. I suppose you ARE cultured. You may pass."
 			dialog_system.start_dialogue("DorrethyL4_game4")
