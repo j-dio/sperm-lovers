@@ -34,6 +34,13 @@ func open_door():
 		return
 	is_open = true
 
+	# Karma reward for opening door via puzzle (pacifist progress)
+	if GameManager:
+		# Door0 = +20, Door1 = +40 (based on required_power as proxy)
+		var karma_reward = 20.0 if required_power <= 2 else 40.0
+		GameManager.add_karma_xp(karma_reward)
+		print("[ElectricDoor] +", karma_reward, " karma for puzzle completion")
+
 	if anim.has_animation("open"):
 		audio.play()
 		anim.play("open")

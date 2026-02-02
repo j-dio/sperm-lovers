@@ -161,7 +161,7 @@ func die() -> void:
 	_spawn_death_splash()
 
 	if GameManager:
-		GameManager.add_karma_xp(-50.0)
+		GameManager.add_karma_xp(-25.0)  # Major violence (balanced)
 		if is_aggro: GameManager.on_enemy_died()
 
 	visible = false

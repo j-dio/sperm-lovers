@@ -224,7 +224,7 @@ func die() -> void:
 			enemy._on_nearby_violence(global_position)
 	# Now notify GameManager (karma and aggro count)
 	if GameManager:
-		GameManager.add_karma_xp(-10.0)  # Bad action: -10 XP
+		GameManager.add_karma_xp(-1.0)  # Bad action: -1 XP (balanced)
 		if is_aggro:
 			GameManager.on_enemy_died()
 	queue_free()
