@@ -456,7 +456,7 @@ func die() -> void:
 
 	# Karma penalty for killing sibling sperm
 	if GameManager:
-		GameManager.add_karma_xp(-3.0)
+		GameManager.add_karma_xp(-10.0)  # Killing sibling: -10 XP
 		print("[Sperm] -3 karma for sibling death")
 
 	var splash = DeathSplash.instantiate()
