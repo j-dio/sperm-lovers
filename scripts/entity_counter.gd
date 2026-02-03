@@ -11,7 +11,8 @@ var total_wbcs: int = 0
 var total_pillars: int = 0
 
 func _ready() -> void:
-	# Wait one frame for all entities to be added to groups
+	# Wait two frames for all entities to be added to groups (matching enemy scripts)
+	await get_tree().physics_frame
 	await get_tree().physics_frame
 	_count_initial_totals()
 	_update_labels()
