@@ -1,9 +1,9 @@
 extends CanvasLayer
 
 # Node references for labels
-@onready var sibling_label: Label = $MarginContainer/VBoxContainer/SiblingRow/Label
-@onready var wbc_label: Label = $MarginContainer/VBoxContainer/WBCRow/Label
-@onready var pillar_label: Label = $MarginContainer/VBoxContainer/PillarRow/Label
+@onready var sibling_label: Label = $MarginContainer/PanelContainer/VBoxContainer/SiblingRow/Label
+@onready var wbc_label: Label = $MarginContainer/PanelContainer/VBoxContainer/WBCRow/Label
+@onready var pillar_label: Label = $MarginContainer/PanelContainer/VBoxContainer/PillarRow/Label
 
 # Total counts (set at level start)
 var total_siblings: int = 0
