@@ -47,6 +47,7 @@ func _ready() -> void:
 	last_position = global_position
 	health = max_health
 	add_to_group("enemies")
+	add_to_group("siblings")
 
 	print("Sibling spawned – layers: ", collision_layer, " groups: ", get_groups())
 	if not static_mode: pick_new_wander_target()
