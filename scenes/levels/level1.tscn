@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=4 uid="uid://c1ik22b8i70y5"]
+[gd_scene load_steps=78 format=4 uid="uid://c1ik22b8i70y5"]
 
 [ext_resource type="Script" uid="uid://4kv8f8ejgwqn" path="res://addons/TileMapLayer3D/nodes/tilemap_layer_3d.gd" id="1_dd0lh"]
 [ext_resource type="Script" uid="uid://c2xaendkngky8" path="res://scripts/camera_follow.gd" id="1_dywbp"]
@@ -41,6 +41,7 @@
 [ext_resource type="AudioStream" uid="uid://48w0jfekexa7" path="res://sounds/01_wet-squelchy-impact-352302-PSX.wav" id="36_qg8x4"]
 [ext_resource type="Shader" uid="uid://dl51w1qcx1676" path="res://art/PSX_shader.gdshader" id="38_b2isc"]
 [ext_resource type="PackedScene" uid="uid://c6sr2w4xbnhs6" path="res://scenes/dialog_system.tscn" id="40_88m6t"]
+[ext_resource type="PackedScene" uid="uid://dent1tycounter" path="res://scenes/ui/entity_counter.tscn" id="41_entcnt"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_b2isc"]
 size = Vector3(2.9841309, 3.7069092, 2.3623924)
@@ -3484,6 +3485,8 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="DialogSystem" parent="." instance=ExtResource("40_88m6t")]
+
+[node name="EntityCounter" parent="." instance=ExtResource("41_entcnt")]
 
 [editable path="Designs/Cars/Car"]
 [editable path="Designs/Cars/Car2"]
