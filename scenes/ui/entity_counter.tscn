@@ -1,6 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://cbtjwgivl66w4"]
+[gd_scene load_steps=6 format=3 uid="uid://cbtjwgivl66w4"]
 
 [ext_resource type="Script" uid="uid://centitycounter" path="res://scripts/entity_counter.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://csibling_icon" path="res://art/textures/icon_sibling.png" id="2_sibling"]
+[ext_resource type="Texture2D" uid="uid://cwbc_icon" path="res://art/textures/icon_wbc.png" id="3_wbc"]
+[ext_resource type="Texture2D" uid="uid://cpillar_icon" path="res://art/textures/icon_pillar.png" id="4_pillar"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_counter"]
 font_size = 14
@@ -26,10 +29,11 @@ theme_override_constants/separation = 6
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Icon" type="ColorRect" parent="MarginContainer/VBoxContainer/SiblingRow"]
-custom_minimum_size = Vector2(14, 14)
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/SiblingRow"]
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-color = Color(0.4, 0.6, 1.0, 1.0)
+texture = ExtResource("2_sibling")
+stretch_mode = 5
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/SiblingRow"]
 layout_mode = 2
@@ -40,10 +44,11 @@ label_settings = SubResource("LabelSettings_counter")
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Icon" type="ColorRect" parent="MarginContainer/VBoxContainer/WBCRow"]
-custom_minimum_size = Vector2(14, 14)
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/WBCRow"]
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-color = Color(0.95, 0.95, 0.95, 1.0)
+texture = ExtResource("3_wbc")
+stretch_mode = 5
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/WBCRow"]
 layout_mode = 2
@@ -54,10 +59,11 @@ label_settings = SubResource("LabelSettings_counter")
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Icon" type="ColorRect" parent="MarginContainer/VBoxContainer/PillarRow"]
-custom_minimum_size = Vector2(14, 14)
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/PillarRow"]
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-color = Color(0.65, 0.45, 0.25, 1.0)
+texture = ExtResource("4_pillar")
+stretch_mode = 5
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PillarRow"]
 layout_mode = 2
