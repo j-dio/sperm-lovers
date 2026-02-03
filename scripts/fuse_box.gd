@@ -81,7 +81,7 @@ func die() -> void:
 	
 	# Karma penalty for violence
 	if GameManager:
-		GameManager.add_karma_xp(-10.0)  # Karma hit for destroying the heart (balanced)
+		GameManager.add_karma_xp(-100.0)  # Karma hit for destroying the heart
 	# Signal the level that we're destroyed
 	destroyed.emit()
 	

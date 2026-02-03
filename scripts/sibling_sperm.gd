@@ -47,6 +47,7 @@ func _ready() -> void:
 	last_position = global_position
 	health = max_health
 	add_to_group("enemies")
+	add_to_group("siblings")
 
 	print("Sibling spawned – layers: ", collision_layer, " groups: ", get_groups())
 	if not static_mode: pick_new_wander_target()
@@ -237,7 +238,7 @@ func die() -> void:
 			enemy._on_nearby_violence(global_position)
 	# Now notify GameManager (karma and aggro count)
 	if GameManager:
-		GameManager.add_karma_xp(-3.0)  # Killing sibling: -3 XP (balanced)
+		GameManager.add_karma_xp(-10.0)  # Killing sibling: -10 XP
 		if is_aggro:
 			GameManager.on_enemy_died()
 	queue_free()

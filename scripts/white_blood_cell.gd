@@ -50,6 +50,7 @@ func _ready() -> void:
 	last_position = global_position
 	health = max_health
 	add_to_group("enemies")
+	add_to_group("white_blood_cells")
 
 	print("WhiteCell spawned – layers: ", collision_layer, " groups: ", get_groups())
 	if not static_mode: pick_new_wander_target()
@@ -229,7 +230,7 @@ func die() -> void:
 			enemy._on_nearby_violence(global_position)
 	# Now notify GameManager (karma and aggro count)
 	if GameManager:
-		GameManager.add_karma_xp(-1.0)  # Killing WBC: -1 XP (self-defense)
+		GameManager.add_karma_xp(-15.0)  # Killing WBC: -15 XP
 		if is_aggro:
 			GameManager.on_enemy_died()
 	queue_free()

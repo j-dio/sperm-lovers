@@ -1,4 +1,4 @@
-# Godot 4+ specific ignores
+﻿# Godot 4+ specific ignores
 .godot/
 /android/
 
@@ -9,4 +9,7 @@ builds/
 
 # someshi
 CLAUDE.md
-GEMINI.md\
+GEMINI.md
+
+# Windows reserved names
+nul

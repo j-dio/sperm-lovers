@@ -7,6 +7,7 @@ extends Node3D
 
 var current_power := 0
 var is_open := false
+var karma_awarded := false  # Prevent karma exploit from repeated open/close
 
 func _ready():
 	await get_tree().process_frame
@@ -34,8 +35,9 @@ func open_door():
 		return
 	is_open = true
 
-	# Karma reward for opening door via puzzle (pacifist progress)
-	if GameManager:
+	# Karma reward for opening door via puzzle (one-time only)
+	if GameManager and not karma_awarded:
+		karma_awarded = true
 		# Door0 = +20, Door1 = +40 (based on required_power as proxy)
 		var karma_reward = 20.0 if required_power <= 2 else 40.0
 		GameManager.add_karma_xp(karma_reward)
