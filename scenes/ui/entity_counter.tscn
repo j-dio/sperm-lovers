@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbtjwgivl66w4"]
+[gd_scene load_steps=3 format=3 uid="uid://cbtjwgivl66w4"]
 
 [ext_resource type="Script" uid="uid://centitycounter" path="res://scripts/entity_counter.gd" id="1_script"]
 
@@ -6,17 +6,6 @@
 font_size = 14
 outline_size = 2
 outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
-bg_color = Color(0, 0, 0, 0.5)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-content_margin_left = 8.0
-content_margin_top = 6.0
-content_margin_right = 8.0
-content_margin_bottom = 6.0
 
 [node name="EntityCounter" type="CanvasLayer"]
 layer = 10
@@ -29,52 +18,48 @@ offset_bottom = 100.0
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="SiblingRow" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="SiblingRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Icon" type="ColorRect" parent="MarginContainer/PanelContainer/VBoxContainer/SiblingRow"]
+[node name="Icon" type="ColorRect" parent="MarginContainer/VBoxContainer/SiblingRow"]
 custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
 color = Color(0.4, 0.6, 1.0, 1.0)
 
-[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/SiblingRow"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/SiblingRow"]
 layout_mode = 2
 text = "0/0"
 label_settings = SubResource("LabelSettings_counter")
 
-[node name="WBCRow" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="WBCRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Icon" type="ColorRect" parent="MarginContainer/PanelContainer/VBoxContainer/WBCRow"]
+[node name="Icon" type="ColorRect" parent="MarginContainer/VBoxContainer/WBCRow"]
 custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
 color = Color(0.95, 0.95, 0.95, 1.0)
 
-[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/WBCRow"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/WBCRow"]
 layout_mode = 2
 text = "0/0"
 label_settings = SubResource("LabelSettings_counter")
 
-[node name="PillarRow" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="PillarRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Icon" type="ColorRect" parent="MarginContainer/PanelContainer/VBoxContainer/PillarRow"]
+[node name="Icon" type="ColorRect" parent="MarginContainer/VBoxContainer/PillarRow"]
 custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
 color = Color(0.65, 0.45, 0.25, 1.0)
 
-[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/PillarRow"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PillarRow"]
 layout_mode = 2
 text = "0/0"
 label_settings = SubResource("LabelSettings_counter")
