@@ -10,6 +10,3 @@ builds/
 # someshi
 CLAUDE.md
 GEMINI.md
-
-# Windows reserved names
-nul
